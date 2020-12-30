@@ -3,7 +3,26 @@ const Person = require('./models/personModel');
 const Status = require('./schemas/statusSchema');
 const City = require('./models/cityModel');
 const Hospital = require('./models/hospitalModel')
+const express = require('express');
+const cors = require('cors');
+const logger=require('./middleware/logger')
+const peopleRouter = require('./routers/peopleRouter')
+const cityRouter = require('./routers/cityRouter')
+const hospitalRouter= require('./routers/hospitalRouter')
+const app = express();
+//middleware
+app.use(cors())
+app.use(logger)
+app.use(express.json())
 
+
+app.use('/people', peopleRouter)
+app.use('/city', cityRouter)
+app.use('/hospital',hospitalRouter)
+const port = process.env.PORT
+app.listen(port, () => {
+    console.log('Server connected, port:',port)
+})
 
 
 

@@ -1,14 +1,22 @@
 const mongoose = require("mongoose");
+const isIsraeliIdValid =require('israeli-id-validator');
 const statusSchema=require('../schemas/statusSchema')
 
 const personSchema = new mongoose.Schema({
+    id_number: {
+        type: String,
+        required: true,
+        trim: true,
+        validate(value) {
+            // if (!isIsraeliIdValid(value))
+            //     throw new Error('invalid id')
+        }
+    },
     city: {
         type: mongoose.Types.ObjectId,
-        
     },
     hospital: {
         type: mongoose.Types.ObjectId,
-      
     },
     gender: {
         type: String,
