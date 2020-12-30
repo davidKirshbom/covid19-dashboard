@@ -38,4 +38,23 @@ router.delete('/:id', async (req, res) => {
         return res.status(500).send({message:"problem occurred"})
     }
 })
-module.exports=router
+router.patch('/:id', async (req, res)=> {
+    const _id = req.params.id
+    if (!_id) {
+        return res.sendStatus(404)
+    }
+    try {
+        const oldHospital = await Hospital.findByIdAndUpdate(_id, { ...req.body },{runValidators:true});
+        return res.send(oldHospital)
+    } catch (err) {
+        console.log(err)
+        return res.status(500).send({message:"problem occurred"})
+    }
+})
+
+
+
+
+
+
+module.exports = router
