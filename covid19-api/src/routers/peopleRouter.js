@@ -1,5 +1,6 @@
 const { Router } = require('express');
-const mongoose=require('mongoose')
+const mongoose = require('mongoose');
+const moment=require('moment')
 const Person=require('../models/personModel')
 const router = Router();// /people
 
@@ -67,6 +68,33 @@ router.patch('/add-status/:id', async (req, res) => {
         return res.status(500).send(err)
     }
 })
-
+router.get('/statics', async (req, res) => {
+    const staticsObj = {}
+    const yesterdayStart = moment().subtract(1, 'day').startOf('day')  
+    try {
+        staticsObj.fromYesterdayVerifiedUntilNow = await Person.find(
+            {
+                "statuses.name": "מאומת",
+                "statuses.createdAt": { $gt: yesterdayStart}
+            });
+        staticsObj.allCurrentSick = await Person.find({
+            "statuses.name": "חולה",
+            "statuses.end_date": {$exists:false}
+        })
+        staticsObj.allRespiratoryData = await Person.find({
+            "statuses.isRespiratory": true
+        })
+        staticsObj.deathsData = await Person.find({
+            "statuses.name": "נפטר",
+            "statuses.end_date": {$exists:false}
+        })
+        staticsObj.testsData = await Person.find({
+            "statuses.name": "נבדק",
+        })
+        res.send(staticsObj)
+    } catch (err) {
+        console.log(err)
+    }
+}) 
 
 module.exports=router

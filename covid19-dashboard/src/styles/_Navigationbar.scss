@@ -1,0 +1,96 @@
+.navigation-container{
+    display: flex;
+    padding: 7px;
+    flex-direction: row-reverse;
+    flex-direction: column;
+   align-items: flex-end;
+    height: 50px;
+}
+.burger-button.open{
+    #burger-line-2{
+        display: none;
+    }
+    #burger-line-1{
+        rotate: 45deg;
+    }
+    #burger-line-3{
+        position: relative;
+        bottom: 4px;
+        rotate: -45deg;
+    }
+}
+.burger-button{
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    height: 100%;
+    margin-left: 10px;
+.burger-btn-line{
+    height: 2px;
+    width: 20px;
+    margin: 1.5px 0px;
+ 
+    background:#374f60 ;
+}}
+.right-side-container{
+    display: flex;
+    flex-direction: row-reverse;
+    width: 300px;
+}
+.logo{
+    width: 252px;
+}
+.left-side-container{
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    width: 100%;
+}
+.title-container{
+    display: flex;
+    flex-flow: column;
+    margin: auto 0px;
+    span{
+      direction: rtl;
+    }
+    .title{
+        font-weight: 500;
+        font-size: .85rem;
+    }
+    .subtitle{
+        font-size: .7rem;
+    }
+}
+.rounded-button{
+    @include remove-button-defaults;
+    background: #39475d;
+    height: 30px;
+    width: 120px;
+    color: white;
+    padding: 5px;
+    flex-shrink: 0;
+    border-radius: 50px;
+    text-align: center;
+  font-size: .95rem;
+  margin: auto 0px auto 15px;
+}
+@media(min-width:$desktop-break-point){
+    .navigation-container{
+      
+        flex-direction: row-reverse;
+       
+        height: unset;
+    }
+    .burger-button{
+        margin-top: auto;
+        margin-bottom: auto;
+    }
+    .title-container{
+        position: relative;
+        width: 100%;
+        span{
+            text-align: center;
+        }
+    }
+
+}

@@ -1,0 +1,39 @@
+html{
+    overflow-x: hidden;
+}
+body{
+    margin: 0px;
+}
+
+*{
+    box-sizing: border-box;
+}
+.main-section{
+    direction: rtl;
+    display: flex;
+    width: 100%;
+    background: #edf1f7;
+    p
+  {
+      position: relative;
+      width: 100%;
+    
+  }
+}
+.flex-row{
+    display: flex;
+}
+.flex-column{
+    display: flex;
+    flex-flow: column;
+}
+
+.redpink-bg{
+    background-color: $red-pinky;
+}
+.yellow-bg{
+    background-color: $gold-blur;
+}
+.blue-bright-color{
+   color:$blue-bright
+}

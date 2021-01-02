@@ -1,0 +1,93 @@
+.info-text{
+    display: none;
+}
+.general-statics{
+    display: flex;
+    height: 250px;
+    flex-wrap: wrap;
+}
+.static-square{
+    background: white;
+    padding: 15px;
+    margin: 10px 30px;
+    width: 235px;
+    height: 184px;
+    .title{
+        display: flex;
+
+        .fa-info-circle{
+            margin-right: 5px;
+            color: $gray-blur;
+        }
+    }
+    .static-prime-data{
+        margin-top: 10px;
+        font-size: 1.55rem;
+        font-weight: 500;
+    }
+}
+.static-bottom-data{
+    margin-top: 20px;
+    font-size: .8rem;
+}
+.detail-box{
+    margin-left: 10px;
+}
+.fa-info-circle:hover+.info-text{
+    
+        display: inline;
+        position: absolute;
+        width: 250px;
+        font-size: .75rem;
+        margin-top: 30px;
+        margin-right: -120px;
+        background: white;
+       border: 1px solid black;
+       padding: 2px 10px;
+       border-radius: 5px;
+       font-weight: 300;
+}
+.static-sub-data{
+    font-size: .85rem;
+    font-weight: 300;
+    margin: 2px 0px;
+    strong{
+        font-weight: 700;
+    }
+}
+.detail-content{
+    font-weight: 300;
+    font-size: .85rem;
+    strong{
+        font-weight: 700;
+    }
+}
+.fa-signal{
+    margin-left: 7px;
+    font-size: 1.2rem;
+    // background-color: black;
+    // color: white;
+}
+.detail-chart-title{
+  
+    margin-top: 40px;
+    font-size: 1rem;
+}
+.circle{
+    display: inline-block;
+    height: 10px;
+    width: 10px;
+    border-radius: 100%;
+    margin-left: 5px;
+}
+
+.small-chart-container{
+    display: none;
+    width: 342px;
+    height: 600px;
+    position: absolute;
+    margin-right: -70px;
+}
+.small-chart-container.open{
+    display: inline;
+}
