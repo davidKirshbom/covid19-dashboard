@@ -1,10 +1,19 @@
+
+header{
+    position: sticky;
+    top:0;
+    background-color: white;
+    box-shadow: 0 7px 10px 1px rgba(0,0,0,.1);
+}
 .navigation-container{
     display: flex;
     padding: 7px;
     flex-direction: row-reverse;
     flex-direction: column;
    align-items: flex-end;
-    height: 50px;
+  
+
+    
 }
 .burger-button.open{
     #burger-line-2{

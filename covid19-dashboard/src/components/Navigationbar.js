@@ -4,7 +4,8 @@ import logo from '../images/logo_dashboard.png'
 export default ({onClickBurgerButton,isMenuOpen}) => {
     const { isThemeWhite, setIsThemeWhite } = useContext(themeContext)
     
-    return (<div className="navigation-container">
+    return (
+        <div className="navigation-container">
         
         <div className="right-side-container">
             <div className={`burger-button ${isMenuOpen?'open':''}`} onClick={onClickBurgerButton}>

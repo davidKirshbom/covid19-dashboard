@@ -23,6 +23,9 @@ body{
 .flex-row{
     display: flex;
 }
+.flex-row.center{
+    justify-content: space-evenly;
+}
 .flex-column{
     display: flex;
     flex-flow: column;

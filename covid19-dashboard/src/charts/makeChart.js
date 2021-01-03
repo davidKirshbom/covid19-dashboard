@@ -1,53 +1,16 @@
-import moment from 'moment'
-import highCharts from 'highcharts'
+
 import Chart from 'chart.js'
-const getXDates = () => {
-    let day = moment('02/03/2020')
-    const end = moment();
-    const dates=[]
-  while (day <= end) {     
-        dates.push(day.clone().toString())
-      day=day.add({ days: 15, month: 1 })    
-  }
 
-    return dates;
-    
-}
-const getChartLineData = (people) => {
-  let day = moment('02/03/2020','DD/MM/YYYY');
-  const end = moment().clone();
-  const data = [];
-  while (day.isSameOrBefore(end)) {
-    
-    let count = 0;
-    people.forEach(person => {      
-      if (person.statuses.some((status) => { 
-        
-        return status.isRespiratory&&(moment(status.createdAt).isSameOrBefore(day) && (!status.end_date || moment(status.end_date).isSameOrAfter(day)))
-      }))
-      {
-        count++;
-      }
-    });
-    data.push({ x: day.clone().format('D.M').toString(), y:count });
-    day.add('1','day')
-  }
 
-  console.log("🚀 ~ file: respiratoryChart.js ~ line 39 ~ getChartLineData ~ data", data)
-
-  return data
-  
-}
-export default (containerName, data) => {
-   
-  let ctx = document.getElementById('respiratory-chart');
+export default (containerName, data, { xTitle, yTitle, chartTitle, toolTipPostfix } = {}) => {
+  let ctx = document.getElementById(containerName);
   let gradient = ctx.getContext('2d').createLinearGradient(0, 0, 0, 500);
   gradient.addColorStop(0, 'rgba(83, 204, 253, 1)');
   gradient.addColorStop(0.25, 'rgba(204, 243, 246, 0.5)');
   gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
-  const lineArray = getChartLineData(data)
+  const lineArray = data
   var myChart = new Chart(ctx, {
-    
+
     type: 'line',
     data: {
         
@@ -55,7 +18,7 @@ export default (containerName, data) => {
           label: {
               
             },
-          data: lineArray.map(data=>data.y),
+          data:data.length>0? lineArray.map(data=>data.y):undefined,
             
             backgroundColor: 
                 gradient
@@ -69,9 +32,11 @@ export default (containerName, data) => {
         }]
     },
     options: {
+      responsive: true,
+      maintainAspectRatio: false,
       title: {
         display:true,
-        text: 'מונשמים - שינוי יומי',
+        text:chartTitle||'',
    
         
       },
@@ -84,7 +49,7 @@ export default (containerName, data) => {
           labels: lineArray.map(data => data.x),
           scaleLabel: {
             display: true,
-            labelString: 'תאריך',
+            labelString: xTitle||'',
             fontSize:15,
           },
           ticks: {
@@ -96,7 +61,7 @@ export default (containerName, data) => {
           labels: lineArray.map(data => data.y),
           scaleLabel: {
             display: true,
-            labelString: 'כמות מונשמים',
+            labelString: yTitle||'',
             fontSize:15,
           },
                 ticks: {
@@ -117,7 +82,7 @@ export default (containerName, data) => {
           },
           label: function (item) {
            
-            return item.value+ ' מונשמים';
+            return item.value+ (toolTipPostfix||'');
           }
         }
       }
