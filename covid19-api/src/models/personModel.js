@@ -15,8 +15,10 @@ const personSchema = new mongoose.Schema({
     city: {
         type: mongoose.Types.ObjectId,
     },
-    hospital: {
+    location: { 
         type: mongoose.Types.ObjectId,
+        ref: 'Location',
+    
     },
     gender: {
         type: String,

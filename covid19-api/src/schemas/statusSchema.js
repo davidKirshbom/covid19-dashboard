@@ -14,7 +14,7 @@ const statusSchema = new mongoose.Schema(
 		detail: {
 			type: String,
 			validate(value) {
-                const validStatuses = ['קריטי', 'קשה', 'בינוני', 'קל', 'ללא תסמינים']
+                const validStatuses = ['קריטי', 'קשה', 'בינוני', 'קל', 'ללא תסמינים','חיובי','שלילי',]
                 if (!validStatuses.includes(value))
                     throw new Error('invalid status')
 			},

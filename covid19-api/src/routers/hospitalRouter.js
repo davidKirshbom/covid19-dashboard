@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const mongoose=require('mongoose')
-const Hospital=require('../models/hospitalModel')
+const Hospital=require('../models/locationModel')
 const router = Router();// /hospital
 
 router.get('/',async (req, res) => {

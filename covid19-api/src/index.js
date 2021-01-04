@@ -2,7 +2,7 @@ require('./db/mongodb');
 const Person = require('./models/personModel');
 const Status = require('./schemas/statusSchema');
 const City = require('./models/cityModel');
-const Hospital = require('./models/hospitalModel')
+
 const express = require('express');
 const cors = require('cors');
 const logger=require('./middleware/logger')

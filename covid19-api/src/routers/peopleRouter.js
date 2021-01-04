@@ -68,29 +68,153 @@ router.patch('/add-status/:id', async (req, res) => {
         return res.status(500).send(err)
     }
 })
+
+const getChangesSickUntilMidnightAndUntilNow = async () => {
+    const midnight = moment().startOf('day')
+    const untilMidnightCount = await Person.find({
+        statuses: {
+            $elemMatch: { name: "חולה", detail: "קשה", $or: [{ end_date: { $exists: false } }, { end_date: { $lt: midnight } }] }
+        }
+    }).countDocuments()
+    const untilNowCount = await Person.find({
+        statuses: {
+            $elemMatch: { name: "חולה", detail: "קשה",end_date: { $exists: false }  } 
+        }
+    }).countDocuments()  
+
+    return (untilNowCount-untilMidnightCount)
+    
+}
+const getChangesRespiratoryUntilMidnightAndUntilNow = async () => {
+    const midnight = moment().startOf('day')
+    const untilMidnightCount = await Person.find({
+        statuses: {
+            $elemMatch: { isRespiratory:true, $or: [{ end_date: { $exists: false } }, { end_date: { $lt: midnight } }] }
+        }
+    }).countDocuments()
+    const untilNowCount = await Person.find({
+        statuses: {
+            $elemMatch: { isRespiratory:true,end_date: { $exists: false }  } 
+        }
+    }).countDocuments()  
+
+    return (untilNowCount-untilMidnightCount)
+    
+}
+const getPercentPositiveTestYesterday = async () => {
+    const yesterdayStart = moment().subtract(1, 'day').startOf('day');
+    const yesterdayEnd = moment().subtract(1, 'day').endOf('day');
+    const allTestCountYesterdayCount = await Person.find({
+        statuses: {
+            $elemMatch: { name: "נבדק", createdAt: { $gte: yesterdayStart, $lte: yesterdayEnd } }
+        }
+    }).countDocuments();
+     const allTestPositiveCountYesterdayCount = await Person.find({
+        statuses: {
+            $elemMatch: { name: "נבדק",detail:"חיובי", createdAt: { $gte: yesterdayStart, $lte: yesterdayEnd } }
+        }
+     }).countDocuments();
+    
+    return (allTestPositiveCountYesterdayCount/allTestCountYesterdayCount)*100
+}
+const getPercentPositiveTestFromMidnight = async () => {
+    const dayStart = moment().startOf('day');
+    const allTestCountYesterdayCount = await Person.find({
+        statuses: {
+            $elemMatch: { name: "נבדק", createdAt: { $gte: dayStart } }
+        }
+    }).countDocuments();
+     const allTestPositiveCountYesterdayCount = await Person.find({
+        statuses: {
+            $elemMatch: { name: "נבדק",detail:"חיובי", createdAt: { $gte: dayStart } }
+        }
+     }).countDocuments();
+    
+    return (allTestPositiveCountYesterdayCount/allTestCountYesterdayCount)*100
+}
 router.get('/statics', async (req, res) => {
     const staticsObj = {}
-    const yesterdayStart = moment().subtract(1, 'day').startOf('day')  
+    const yesterdayStart = moment().subtract(1, 'day').startOf('day') 
+    const yesterdayEnd = moment().subtract(1, 'day').endOf('day')  
     try {
-        staticsObj.fromYesterdayVerifiedUntilNow = await Person.find(
-            {
-                "statuses.name": "מאומת",
-                "statuses.createdAt": { $gt: yesterdayStart}
-            });
-        staticsObj.allCurrentSick = await Person.find({
-            "statuses.name": "חולה",
-            "statuses.end_date": {$exists:false}
-        })
-        staticsObj.allRespiratoryData = await Person.find({
-            "statuses.isRespiratory": true
-        })
+        staticsObj.verifiedSick = {
+            fromYesterdayVerifiedUntilNow : await Person.find(
+                {
+                    "statuses.name": "נבדק",
+                    "statuses.detail": "חיובי",
+                    "statuses.createdAt": { $gt: yesterdayStart,$lt:yesterdayEnd}
+                }),
+            fromMidnightUntilNow: await Person.find({
+                "statuses.name": "נבדק",
+                "statuses.detail": "חיובי",
+                "statuses.createdAt": { $gt: moment().startOf('day')}
+            }),
+            allTimesCount: await Person.find({
+                "statuses.name": "נבדק",
+                "statuses.detail": "חיובי",
+            }).countDocuments()
+        }
+        staticsObj.sickPeople = {
+            allCurrentSick : await Person.find({
+                "statuses.name": "חולה",
+                "statuses.end_date": {$exists:false}
+            }),
+            fromMidnightUntilNow: await Person.find({
+                "statuses.name": "חולה",
+                "statuses.end_date": {$exists:false},
+                "statuses.createdAt": { $gt: moment().startOf('day')}
+            }),
+            locationsCount: {
+                hospitals: (await Person.find().populate('location').exec()).reduce((acc, person) => {
+                                    if (person.location && person.location.type === 'בית חולים')
+                                        { 
+                                            return ++acc
+                                        }
+                                    else 
+                                        return acc
+                                    }, 0),
+                hotels: (await Person.find().populate('location').exec()).reduce((acc, person) => {
+                    if (person.location && person.location.type === 'מלון')
+                        { 
+                            return ++acc
+                        }
+                    else 
+                        return acc
+                    }, 0),
+                home:await Person.find({location:{$exists:false}}).countDocuments(),
+
+            },
+            SeriouslyIll: await Person.find({
+                "statuses.name": "חולה",
+                $or:[{"statuses.detail":"קשה"},{"statuses.detail":"קריטי"}],
+                "statuses.end_date": {$exists:false}
+            }),
+            SeriouslyIllSinceMidnight:await getChangesSickUntilMidnightAndUntilNow(),
+                
+            
+            mediumIll: await Person.find({
+                statuses: {
+                    $all: [{ $elemMatch: { name: "חולה", detail: "בינוני" } }]
+                }
+            })
+            
+        }
+     
+
+
+        staticsObj.respiratory = {
+            allRespiratoryData: await Person.find({ "statuses.isRespiratory": true }),
+            changeTodayAndMidnight:await getChangesRespiratoryUntilMidnightAndUntilNow()
+        }
         staticsObj.deathsData = await Person.find({
             "statuses.name": "נפטר",
             "statuses.end_date": {$exists:false}
         })
-        staticsObj.testsData = await Person.find({
-            "statuses.name": "נבדק",
-        })
+        staticsObj.testsData = {
+            all: await Person.find({ "statuses.name": "נבדק" }),
+            percentPositiveYesterday: await getPercentPositiveTestYesterday(),
+            percentPositiveToday:await getPercentPositiveTestFromMidnight()
+        }
         res.send(staticsObj)
     } catch (err) {
         console.log(err)

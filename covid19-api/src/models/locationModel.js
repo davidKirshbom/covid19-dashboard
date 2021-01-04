@@ -23,6 +23,16 @@ const hospitalSchema = new mongoose.Schema({
         trim: true,
         required: true,       
     },
+    type: {
+        type: 'String',
+        required: true,
+        validate(value) {
+            const validWords = ['בית/קהילה', 'מלון', 'בית חולים']
+            if (!validWords.includes(value)) {
+                throw new Error('Invalid type')
+            }
+        }
+    },
     general_occupation:{
         type: Number,
         required:true,
@@ -45,5 +55,5 @@ const hospitalSchema = new mongoose.Schema({
     }  
 })
 
-const Hospital=mongoose.model('Hospital',hospitalSchema)
-module.exports = Hospital;
+const Location=mongoose.model('Location',hospitalSchema)
+module.exports = Location;
