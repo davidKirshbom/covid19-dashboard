@@ -8,6 +8,20 @@ body{
 *{
     box-sizing: border-box;
 }
+h1{
+    font-size: 1.2rem;
+    height: 75px;
+    text-align: center;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0px;
+
+    
+}
+h3{
+    font-size: .95rem;
+}
 .main-section{
     direction: rtl;
     display: flex;
@@ -30,12 +44,27 @@ body{
     display: flex;
     flex-flow: column;
 }
-
+.flex-row-wrapper{
+    display: flex;
+    width: 100%;
+}
 .redpink-bg{
     background-color: $red-pinky;
 }
 .yellow-bg{
     background-color: $gold-blur;
+}
+.red-bg{
+    background-color: $red-zone;
+}
+.orange-bg{
+    background-color: $orange-zone;
+}
+.bright-yellow-bg{
+    background-color: $yellow-zone;
+}
+.green-bg{
+    background-color: $green-zone;
 }
 .blue-bright-color{
    color:$blue-bright

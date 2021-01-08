@@ -14,6 +14,7 @@ const personSchema = new mongoose.Schema({
     },
     city: {
         type: mongoose.Types.ObjectId,
+        ref:'City'
     },
     location: { 
         type: mongoose.Types.ObjectId,

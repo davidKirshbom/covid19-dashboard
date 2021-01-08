@@ -1,151 +1,84 @@
-.info-text{
-    display: none;
-}
-.general-statics{
-    display: grid;
-    grid-template-columns: repeat(6,1fr);
-    column-gap: 30px;
-  
-    margin-top: 20px;
+.main-page-container{
+    padding: 10px;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
     width: 100%;
+}
+.spread-weekly{
+    background: white;
+    width: 100%;
+    margin: 0px auto;
+    margin-top: 20px;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    
+}
+.weekly-charts-container{
+    display: flex;
+    justify-content: center;
+    
+}
+.lookup{
+ display: flex;   
+ align-items: center;
+ background: $gray-greeny;
+ padding: 5px;
+    border-radius: 50px;
+    i{
+        margin-left: 5px;
+    }
+}
+
+.lookup-text{
+    font-size: .75rem;
+    font-weight: 300;
+}
+    
+    
+
+.weekly-chart-container{
+    padding: 10px;
+    border: 1px solid $gray-blur;
+    border-left: none;
+    flex-shrink: 1;
+    &:last-child{
+        border-left:  1px solid $gray-blur;
+    }
+}
+.flex-shrink-1{
+    flex-shrink: 2;
+}
+
+.medium-chart-container{
+   height: 250px;
    
 }
-
-.general-statics-container{
+.large-chart-container{
     width: 100%;
+    height: 250px;
+    margin-top: -55px;
+    margin-right: -28px;
 }
-.static-square{
-    background: white;
-    padding: 10px;
-    max-width: 255px;
-    width: 100%;
-    max-height: 200px;
-    border-radius: 5px;
-    margin: 10px;
-    .title{
-        display: flex;
+.epidemic-chart-container{
+    width: 60%;
+}
+.title-filter-wrapper{
+    display: flex;
+    justify-content: space-between;
+    padding-top:15px ;
+    align-items: center;
+}
+.seriously-ill-and-respiratory-chart-container{
+    width: 40%;
+    margin-right: 10px;
+}
 
-        .fa-info-circle{
-            margin-right: 5px;
-            color: $gray-blur;
-        }
-    }
-    .static-prime-data{
-        margin-top: 10px;
-        font-size: 1.55rem;
-        font-weight: 500;
-    }
-}
-@media(max-width:$desktop-break-point-1){
-    .general-statics{
+#epidemic-curve-chart{
+    margin-top: -55px;
+    margin-right: -28px;
     
-        grid-template-columns: repeat(3,1fr);
-        grid-template-rows: 1fr 1fr;
-       row-gap: 0px;
-       height: 450px;
-       width: 99%;
-    }
-    .static-square{
-        max-width: unset;
-        max-height: unset;
-    }
-}
-@media(max-width:$desktop-break-point-2){
-    .general-statics{
-    
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: 1fr 1fr 1fr;
-       row-gap: 0px;
-       height: 450px;
-       width: 99%;
-    }
-    .static-square{
-        max-width: unset;
-        max-height: unset;
-    }
-}
-.fa-signal{
-    margin-left: 7px;
-    font-size: .85rem;
-
- 
-}
-.static-square.selected{
-    box-shadow: 0 0 9px 2px rgba(0,0,0,.5686274509803921);
-
-    .fa-signal{
-        background-color: black;
-        color: white;
-        border-radius: 150px;
-        padding: 10px;
-    }
-}
-.static-bottom-data{
-    margin-top: 20px;
-    font-size: .8rem;
-}
-.detail-box{
-    margin-left: 10px;
-}
-.fa-info-circle:hover+.info-text{
-    
-        display: inline;
-        position: absolute;
-        width: 250px;
-        font-size: .75rem;
-        margin-top: 30px;
-        margin-right: -120px;
-        background: white;
-       border: 1px solid black;
-       padding: 2px 10px;
-       border-radius: 5px;
-       font-weight: 300;
-       z-index: 30;
-}
-.static-sub-data{
-    font-size: .85rem;
-    font-weight: 300;
-    margin: 2px 0px;
-    strong{
-        font-weight: 700;
-    }
-}
-.detail-content{
-    font-weight: 300;
-    font-size: .85rem;
-    strong{
-        font-weight: 700;
-    }
 }
 
-.detail-chart-title{
-  
-    margin-top: 40px;
-    font-size: 1rem;
-}
-#death-chart-icon{
-    padding-top:20px ;
-}
-.circle{
-    display: inline-block;
-    height: 10px;
-    width: 10px;
-    border-radius: 100%;
-    margin-left: 5px;
-}
 
-.small-chart-container{
-    display: none;
-    width: 342px;
-    height: 300px;
-    position: absolute;
-    margin-right: -70px;
-    background-color: white;
-    border-radius: 10px;
-    canvas
-    {object-fit: contain;}
-}
-.small-chart-container.open{
-    box-shadow: 0 0 10px 2px rgba(0,0,0,.4);
-    display: inline;
-}

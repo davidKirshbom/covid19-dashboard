@@ -1,0 +1,46 @@
+.cities-by-color-container{
+    width: 80%;
+    height: 300px;
+}
+.top{
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+   
+}
+.search-input{
+    height: 2rem;
+}
+.title-wrapper{
+    
+    h3{
+        margin-bottom: 0px;
+    }
+    h4{
+        margin-top: 0px;
+        font-size: .75rem;
+    }
+}
+.flex-row-wrapper.none-width{
+    width: unset;
+}
+.legends-container{
+    display: flex;
+}
+.legend-container{
+    display: flex;
+    margin: 0px 5px;
+}
+.legend-color{
+    height: 2.2rem;
+    width: 2.2rem;
+    margin-left: 5px;
+    border-radius: 5px;
+}
+.legend-title{
+    font-size: .8rem;
+}
+.legend-subtitle{
+    font-size: .8rem;
+    font-weight: 200;
+}

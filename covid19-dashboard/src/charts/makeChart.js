@@ -1,10 +1,15 @@
 
 import Chart from 'chart.js'
 
+const getLimitedTicks=(ticks)=> {
+  const skipParameter = Math.floor(ticks.length / 5);
+  return [ticks[0], ticks[skipParameter], ticks[skipParameter * 2], ticks[skipParameter * 3], ticks[skipParameter * 4]]
+}
 
 export default (containerName, data, { xTitle, yTitle, chartTitle, toolTipPostfix } = {}) => {
   let ctx = document.getElementById(containerName);
   let gradient = ctx.getContext('2d').createLinearGradient(0, 0, 0, 500);
+  let xTicks=getLimitedTicks(data.map(data=>data.x))
   gradient.addColorStop(0, 'rgba(83, 204, 253, 1)');
   gradient.addColorStop(0.25, 'rgba(204, 243, 246, 0.5)');
   gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
@@ -29,7 +34,25 @@ export default (containerName, data, { xTitle, yTitle, chartTitle, toolTipPostfi
           borderWidth: 5,
           pointRadius: 0,
           
-        }]
+      },
+        {
+        type:'bubble',
+        label: {
+            
+          },
+        data:data.length>0? lineArray.filter(data=>!xTicks.includes(data.x)).map(data=>data.y):undefined,
+          
+          backgroundColor: 
+              gradient
+          ,
+          borderColor: 
+              '#53ccfd'
+            ,
+        borderWidth: 5,
+        pointRadius: 0,
+        
+      }
+      ]
     },
     options: {
       responsive: true,
@@ -45,18 +68,18 @@ export default (containerName, data, { xTitle, yTitle, chartTitle, toolTipPostfi
           display:false,
       },
       scales: {
+        
         xAxes: [{
+          afterBuildTicks() {            
+            return xTicks
+          },
           labels: lineArray.map(data => data.x),
           scaleLabel: {
             display: true,
             labelString: xTitle||'',
             fontSize:15,
           },
-          ticks: {
-            maxTicksLimit: 5,
-            beginAtZero: true,
-            
-          }}],
+         }],
         yAxes: [{
           labels: lineArray.map(data => data.y),
           scaleLabel: {
