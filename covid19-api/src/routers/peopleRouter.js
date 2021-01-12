@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const moment=require('moment')
 const Person = require('../models/personModel')
 const { getDeathsObject, getVerifiedSickObject,
-    getSickPeopleObject, getRespiratoryObject, getTestObject,getEpidemicChanges, getEnlightenmentVerifiedDoubleFromNow, getSeriouslyIllChart, getEnlightenmentSeriouslyIllUntilNow
+    getSickPeopleObject, getRespiratoryObject, getTestObject,getEpidemicChanges, getEnlightenmentVerifiedDoubleFromNow, getSeriouslyIllChart, getEnlightenmentSeriouslyIllUntilNow, getNumberOfDeathsSinceDateByDay, getTestsDataSinceDate
 } = require('../utils/peopleStatics')
 const {getChartWeeklyVerifiedData, getWeekCountSeriouslyIll, getVerifiedNotRedZone}=require('../utils/weeklyStatics')
 const router = Router();// /people
@@ -86,6 +86,17 @@ router.get('/statics', async (req, res) => {
         return res.status(500).send(err)
     }
 }) 
+router.get('/statics/total-deaths', async (req, res) => {
+
+    try {
+        const deathsCount = (await getDeathsObject()).length
+        res.send({deathsCount})
+    } catch (err) {
+        console.log(err)
+        return res.status(500).send(err)
+    }
+}) 
+
 router.get('/statics/charts/weekly-verified', async (req, res) => {
     try { res.send(await getChartWeeklyVerifiedData()); }
     catch (err) {
@@ -150,6 +161,30 @@ router.get('/statics/enlightenment/sick-and-respiratory', async (req, res) => {
         res.send({result});
     }
     catch (err) {
+        console.log(err)
+        return res.sendStatus(500).send(err)
+    }
+})
+router.get('/statics/deaths-count', async (req, res) => {
+    const sinceDate =moment( req.query.sinceDate);
+    try {
+        const result=await getNumberOfDeathsSinceDateByDay(sinceDate||moment())
+        res.send(result)
+    } catch (err) {
+        console.log(err)
+        return res.sendStatus(500).send(err)
+    }
+})
+
+router.get('/statics/tests-count-data', async (req, res) => {
+    const sinceDate = moment(new Date(req.query.sinceDate));
+    console.log("🚀 ~ file: peopleRouter.js ~ line 170 ~ router.get ~ sinceDate", sinceDate)
+    
+    try {
+        const result = await getTestsDataSinceDate(sinceDate || moment())
+        
+        res.send(result)
+    } catch (err) {
         console.log(err)
         return res.sendStatus(500).send(err)
     }

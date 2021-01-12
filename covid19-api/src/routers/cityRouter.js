@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const mongoose=require('mongoose')
-const City=require('../models/cityModel')
+const City=require('../models/cityModel');
+const { getChangesPercentageOfCityBetweenWeeks,getIllCountOfCityInWeek,getVerifiedCountOfCityInWeek, getPositiveTestPercentageOfCityInWeek, getCityIllsCount } = require('../utils/cityStatics');
 const router = Router();// /city
 
 router.get('/', async (req, res) => {
@@ -48,5 +49,25 @@ router.patch('/:id', async (req, res) => {
         res.sendStatus(500);
     }
 })
+
+router.get('/statics', async (req, res) => {
+    const result=[]
+    try {
+        const cities = await City.find();
+        for(let city of cities)
+         {
+            const resultObj={city}
+            resultObj.personsNewVerified=await getIllCountOfCityInWeek(city.id)
+            resultObj.positiveTestsPercentage=await getPositiveTestPercentageOfCityInWeek(city.id)
+            resultObj.changesBetweenWeeks=await getChangesPercentageOfCityBetweenWeeks(city.id)
+            resultObj.illsCount=await getCityIllsCount(city.id)
+            resultObj.grade=Math.abs( 2+Math.log(resultObj.personsNewVerified/10000)+(resultObj.positiveTestsPercentage)%10)||0
+            result.push(resultObj)
+        }
+        res.send(result)
+    } catch (err) { 
+        console.log(err)
+    }
+}) 
 
 module.exports=router

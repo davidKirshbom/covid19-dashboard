@@ -1,5 +1,5 @@
 .cities-by-color-container{
-    width: 80%;
+    width: 65%;
     height: 300px;
 }
 .top{
@@ -8,9 +8,30 @@
     justify-content: space-between;
    
 }
-.search-input{
-    height: 2rem;
+.search-tag{
+    margin: 20px 0px 0px 40px;
 }
+.search-wrapper{
+   
+    background: white;
+    border-radius: 10px;
+    border: 1px solid $blue-dark;
+
+    .fas.fa-search{
+        position: relative;
+        right: 6px;
+        top:1px;
+    }
+}
+.search-input{
+    height: 1.5rem;
+    
+    background: transparent;
+    border: none !important;
+    outline: none !important;
+    padding-right: 10px;
+}
+
 .title-wrapper{
     
     h3{
@@ -43,4 +64,47 @@
 .legend-subtitle{
     font-size: .8rem;
     font-weight: 200;
+}
+.titles-container{
+    margin-top:15px;
+    display: flex;
+   width: 100%;
+}
+.city-title{
+    font-size: .8rem;
+    width:18% ;
+    padding: 5px 10px;
+
+    &.center{
+        display: flex;
+        justify-content: center;
+    }
+}
+.cities-list{
+    padding: 0px;
+}
+.line-container{
+    display: flex;
+    border-bottom: 1px solid $blue-dark;
+    padding-bottom: 5px;
+}
+.data-container{
+    width: 16%;
+    padding-right: 10px;
+    display: flex;
+    font-size: .85rem;
+    font-weight: 200;
+   &.center{
+    justify-content: center;
+   }
+}
+.city-name{
+    font-weight: 600;
+}
+.city-grade{
+    padding: 5px;
+    margin-top: -7px;
+    text-decoration: underline;
+    border-radius: 5px;
+    font-weight: 600;
 }

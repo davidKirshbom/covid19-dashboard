@@ -8,14 +8,18 @@ $desktop-break-point:980px;
 $gray-blur:#bebebe;
 $gray-greeny:#e6f1f4;
 $gray-blueish:#374f60;
+$blue-soft:#e6f1f3;
 $blue-light:#edeff3;
 $blue-bright:#19d6e5;
+$blue-sky:#50cbfd;
+$blue-dark:#daeaee;
 $red-pinky:#fb5377;
 $gold-blur:#e6b957;
 $red-zone:#fa9e8f;
 $orange-zone:#f2c580;
 $yellow-zone:#fcfc70;
 $green-zone:#b8de92;
+$green-dark:#1c7d7e;
 @mixin remove-button-defaults{
     overflow: visible; 
     margin: 0;

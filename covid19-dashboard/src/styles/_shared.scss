@@ -40,6 +40,9 @@ h3{
 .flex-row.center{
     justify-content: space-evenly;
 }
+.flex-row.space-between{
+    justify-content: space-between;
+}
 .flex-column{
     display: flex;
     flex-flow: column;
@@ -65,6 +68,15 @@ h3{
 }
 .green-bg{
     background-color: $green-zone;
+}
+.blue-bright-bg{
+    background-color: $blue-soft;
+}
+.blue-dark-bg{
+    background-color: $blue-dark;
+}
+.blue-sky-bg{
+    background:$blue-sky;
 }
 .blue-bright-color{
    color:$blue-bright

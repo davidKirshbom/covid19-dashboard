@@ -82,9 +82,57 @@ const getSeriouslyIllAndRespiratoryUntilNow = async (startDate) => {
         console.log(err)
     }
 }
+const getCitiesData = async (startDate) => {
+    try {
+        const value = await axios.get(`${path}/city/statics`)    
+        console.log("🚀 ~ file: data.js ~ line 88 ~ getCitiesData ~ value", value)
+        
+        return value.data
+    } catch (err) {
+        console.log(err)
+    }
+}
+const getTestsSinceDate = async (date) => {
+    try {
+        const value = await axios.get(`${path}/people/statics/tests-count-data`, {
+            params: {
+                sinceDate:date
+            }
+        })
+       
+        return value.data
+    } catch (err) {
+        console.log(err)
+    }
+}
+const getDeathsSinceDateByDay = async (date) => {
+    try {
+        const value = await axios.get(`${path}/people/statics/deaths-count`, {
+            params: {
+                sinceDate:date
+            }
+        })
+       
+        return value.data
+        
+    } catch (err) {
+        console.log(err)
+    }
+}
+const getTotalDeaths = async () => {
+    try {
+        const value = await axios.get(`${path}/people/statics/total-deaths`)
+       
+        return value.data
+        
+    } catch (err) {
+        console.log(err)
+    }
+}
 export {
     getGeneralStatics, getChangesAndDoubleFactorPerWeek
     , getSeriouslyIllWeek, getVerifiedOutsideRedZone,
     getEpidemicCurve,getEnlightenmentVerifiedDoubleFromNow,getSeriouslyIllAndRespiratoryUntilNow
-    ,getEnlightenmentSeriouslyIllUntilNow
+    ,getEnlightenmentSeriouslyIllUntilNow,getCitiesData,getTestsSinceDate
+    ,getDeathsSinceDateByDay,getTotalDeaths
 }

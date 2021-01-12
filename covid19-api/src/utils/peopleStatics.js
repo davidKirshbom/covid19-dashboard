@@ -245,10 +245,75 @@ const getEnlightenmentSeriouslyIllUntilNow =async () => {
 
     return {respiratoryData,seriouslyIllData}
 }
+const getNumberOfDeathsOnDay =async (date = moment()) => {
+    try {
+        const deathsCount = await Person.find({
+            statuses: {
+                $elemMatch: { name: 'נפטר', end_date: { $exists: false },createdAt:{$lte:date.clone().endOf('day'),$gte:date.clone().startOf('day')} }
+            }
+        }).countDocuments();
+        return deathsCount;
+    } catch (err) {
+        console.log(err)
+    }
+}
+const getNumberOfDeathsSinceDateByDay = async (date) => {
+    const currentDate = date.clone().startOf('day')
+    const today = moment();
+    const result=[]
+    try {
+        while (currentDate.isSameOrBefore(today)) {
+            const deathCounts=await getNumberOfDeathsOnDay(currentDate)
+            result.push({ day: currentDate.format('D.M').toString(), count:deathCounts})
+            currentDate.add(1,'day')
+        }
+    } catch (err) {
+        console.log(err)
+    }
+
+    return result;
+}
+const getTestsDataForDate = async (date = moment())=>{
+    const startDate = date.clone().startOf('day')
+    const endDate = date.clone().endOf('day')
+    const testData = {}
+    try {
+        testData.verifiedCount = await Person.find({
+            statuses: {
+                $elemMatch: { name: 'נבדק', detail: 'חיובי', createdAt: { $gte: startDate, $lte: endDate } }
+            }
+        }).countDocuments();
+        testData.allTestCount = await Person.find({
+            statuses: {
+                $elemMatch:{name:'נבדק', createdAt: { $gte: startDate, $lte: endDate } }
+            }
+        }).countDocuments()
+        return testData
+    } catch (err) {
+        console.log(err)
+    }
+}
+const getTestsDataSinceDate = async (date)=>{
+    const currentDate = date.clone().startOf('day')  
+    const testsData = []
+    try {
+        while (currentDate.isSameOrBefore(moment())) {
+            const dayTestData = await getTestsDataForDate(currentDate)
+          testsData.push({ day: currentDate.format('D.M').toString(),...dayTestData})
+            currentDate.add(1,'day')
+        }
+
+       return testsData
+    } catch (err) {
+        console.log(err)
+    }
+}
+
 module.exports = {
     getPercentPositiveTestFromMidnight, getPercentPositiveTestYesterday
     ,getChangesRespiratoryUntilMidnightAndUntilNow,getChangesSickUntilMidnightAndUntilNow
     ,getVerifiedSickObject,getSickPeopleObject,getRespiratoryObject
     , getDeathsObject, getTestObject, getEpidemicChanges, getEnlightenmentVerifiedDoubleFromNow
     ,getSeriouslyIllChart,getEnlightenmentSeriouslyIllUntilNow
+    ,getNumberOfDeathsOnDay,getNumberOfDeathsSinceDateByDay,getTestsDataSinceDate
 }
