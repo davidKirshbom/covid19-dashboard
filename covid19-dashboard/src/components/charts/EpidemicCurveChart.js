@@ -3,15 +3,24 @@ import { getEpidemicCurve } from '../../server/data'
 import Chart from 'chart.js'
 import moment from 'moment'
 import LookupTag from '../LookupTag'
+import {updateCharByCurrentTheme} from '../../charts/utils'
 
 import CustomSelect from '../CustomSelect'
 
 import { getEnlightenmentVerifiedDoubleFromNow } from '../../server/data'
 
-export default () => {
+export default ({isThemeWhite}) => {
     const [daysDoubledVerified,setDaysDoubleVerified]=useState(0)
 
     const [startDate, setStartDate] = useState(moment().subtract(2, 'weeks').toDate());
+    
+    const [chart,setChart]=useState()
+    useEffect(() => {
+        if (chart) {
+            setChart(updateCharByCurrentTheme(chart,isThemeWhite))
+            chart.update();
+       }
+    },[isThemeWhite])
     useEffect(() => {
         getEnlightenmentVerifiedDoubleFromNow().then(value=>setDaysDoubleVerified(value))
       },[])
@@ -25,9 +34,10 @@ export default () => {
         gradient.addColorStop(0.25, 'rgba(204, 243, 246, 0.5)');
         gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
         getEpidemicCurve(startDate).then((value) => {            
-            var myChart = new Chart('epidemic-curve-chart', {
+            let myChart = new Chart('epidemic-curve-chart', {
            
                 type: 'line',
+                
                 data: {
                   
                     datasets: [{
@@ -98,13 +108,15 @@ export default () => {
                         labels: {
                             usePointStyle: true,
                             // fontSize: 7,
-                            boxWidth: 6
+                            boxWidth: 6,
+                            
                             
                         },
                         
                     },
-                    scales: {
                     
+                    scales: {
+                        
                         xAxes: [{
                             
                             labels: value.map(data => data.day),
@@ -170,18 +182,19 @@ export default () => {
                         
                         padding: {
                             top: 20,
-                            right: 25
+                            right: 35
                         }
                     },
                    
                 }
                 })
-        
+                setChart(myChart)
         })
+        
 
-    })
+    },[])
     return (
-        <div className="epidemic-chart-container">
+        <div className={`epidemic-chart-container chart-card ${isThemeWhite?'':'black-theme'}`}>
         <div className="title-filter-wrapper">
           <h3>עקומה אפידמית</h3>
           <CustomSelect

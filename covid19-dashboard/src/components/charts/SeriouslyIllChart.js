@@ -5,12 +5,20 @@ import moment from 'moment'
 import LookupTag from '../LookupTag'
 
 import CustomSelect from '../CustomSelect'
+import {updateCharByCurrentTheme} from '../../charts/utils'
 
 
-export default () => {
+export default ({isThemeWhite}) => {
     const [noteData,setNoteData]=useState()
 
     const [startDate, setStartDate] = useState(moment().subtract(2, 'weeks').toDate());
+    const [chart,setChart]=useState()
+    useEffect(() => {
+        if (chart) {
+            setChart(updateCharByCurrentTheme(chart,isThemeWhite))
+            chart.update();
+       }
+    },[isThemeWhite])
     useEffect(() => {
         getEnlightenmentSeriouslyIllUntilNow().then(value=>setNoteData(value))
       },[])
@@ -23,7 +31,7 @@ export default () => {
         // gradient.addColorStop(0.25, 'rgba(204, 243, 246, 0.5)');
         // gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
         getSeriouslyIllAndRespiratoryUntilNow(startDate).then((value) => {            
-            var myChart = new Chart('seriously-ill-and-respiratory-chart', {
+            let myChart = new Chart('seriously-ill-and-respiratory-chart', {
            
                 type: 'line',
                 data: {
@@ -161,18 +169,19 @@ export default () => {
                         
                         padding: {
                             top: 20,
-                            right: 25
+                            right: 60
                         }
                     },
                    
                 }
-                })
+            })
+            setChart(myChart)
         
         })
 
-    })
+    },[])
     return (
-        <div className="seriously-ill-and-respiratory-chart-container">
+        <div className={`seriously-ill-and-respiratory-chart-container chart-card ${isThemeWhite?'':'black-theme'}`}>
         <div className="title-filter-wrapper">
         <h3>חולים קשה ומונשמים</h3>
           <CustomSelect
@@ -186,7 +195,7 @@ export default () => {
         </div>
         <LookupTag text={`סה"כ ${noteData?noteData.seriouslyIllData:''} חולים קשה ו - ${noteData?noteData.respiratoryData:''} מונשמים מאז תחילת המשבר (מרץ 2020) `} isInfo={false} />
         
-        <div className="large-chart-container">
+        <div  className="large-chart-container">
         <canvas id="seriously-ill-and-respiratory-chart">
           
         </canvas>

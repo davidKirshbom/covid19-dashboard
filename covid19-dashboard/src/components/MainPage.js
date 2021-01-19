@@ -14,23 +14,23 @@ import TestsWeekData from './charts/TestsWeekData'
 export default () => {
  
   
-  const [startDate, setStartDate] = useState(moment().subtract(2, 'weeks').toDate());
+  const { isThemeWhite } = useContext(themeContext)
 
   
   return (
-    <div className="main-page-container">
+    <div className={`main-page-container ${isThemeWhite?'':'black-theme'}`}  >
         <StaticsRow />
         <WeeklyCharts />
       <div className="flex-row-wrapper">
-        <EpidemicCurveChart />
-        <SeriouslyIllChart/>
+        <EpidemicCurveChart isThemeWhite={isThemeWhite} />
+        <SeriouslyIllChart isThemeWhite={isThemeWhite}/>
+      </div>
+      <div id="city-and-test-section" className="flex-row-wrapper">
+        <CitiesByColor isThemeWhite={isThemeWhite}/>
+        <TestsWeekData isThemeWhite={isThemeWhite}/>
       </div>
       <div className="flex-row-wrapper">
-        <CitiesByColor/>
-        <TestsWeekData />
-      </div>
-      <div className="flex-row-wrapper">
-        <DeathsChartByDate/>
+        <DeathsChartByDate isThemeWhite={isThemeWhite}/>
       </div>
     </div>
  )

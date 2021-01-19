@@ -5,17 +5,25 @@ import moment from 'moment'
 import LookupTag from '../LookupTag'
 
 import CustomSelect from '../CustomSelect'
+import {updateCharByCurrentTheme} from '../../charts/utils'
 
 
-export default () => {
+export default ({isThemeWhite}) => {
     const [totalDeaths,setTotalDeaths]=useState()
     const [startDate, setStartDate] = useState(moment().subtract(2, 'weeks').toDate());
+    const [chart,setChart]=useState()
+    useEffect(() => {
+        if (chart) {
+            setChart(updateCharByCurrentTheme(chart,isThemeWhite))
+            chart.update();
+       }
+    },[isThemeWhite])
     useEffect(() => {
         getTotalDeaths().then(value=>setTotalDeaths(value.deathsCount))
     },[])
     useEffect(() => {
         getDeathsSinceDateByDay(startDate).then((value) => {            
-            var myChart = new Chart('deaths-chart-by-date', {
+            let myChart = new Chart('deaths-chart-by-date', {
            
                 type: 'line',
                 data: {
@@ -115,13 +123,14 @@ export default () => {
                     },
                    
                 }
-                })
+            })
+            setChart(myChart)
         
         })
 
-    })
+    },[])
     return (
-        <div className="deaths-chart-by-date-container">
+        <div className={`deaths-chart-by-date-container chart-card ${isThemeWhite?'':'black-theme'}`}>
         <div className="title-filter-wrapper">
           <h3>נפטרים</h3>
           <CustomSelect

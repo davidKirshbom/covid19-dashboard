@@ -1,6 +1,12 @@
 .cities-by-color-container{
     width: 65%;
-    height: 300px;
+    flex-shrink: 0;
+}
+.cities-by-color-container.black-theme>.extra-large-chart-container>.cities-container>.titles-container{
+    background: $black-dark;
+    .city-title{
+        background-color: unset;
+    }
 }
 .top{
     display: flex;
@@ -16,7 +22,8 @@
     background: white;
     border-radius: 10px;
     border: 1px solid $blue-dark;
-
+    flex-shrink: 0;
+    height: 30px;
     .fas.fa-search{
         position: relative;
         right: 6px;
@@ -107,4 +114,24 @@
     text-decoration: underline;
     border-radius: 5px;
     font-weight: 600;
+}
+.chart-card{
+    margin: 10px 5px;
+}
+@media(max-width:$desktop-break-point-1){
+    #city-and-test-section{
+        flex-flow: column;
+    }
+    .cities-by-color-container{
+        width: 100%;
+    }
+    .search-tag{
+        flex-flow: column;
+    }
+}
+@media(max-width:$desktop-break-point){
+   
+    .search-tag{
+        flex-flow: column;
+    }
 }

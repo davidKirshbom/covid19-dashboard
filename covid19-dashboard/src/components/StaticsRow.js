@@ -1,10 +1,13 @@
-import React,{useState,useEffect} from 'react'
+import React, { useState, useEffect, useContext } from 'react'
+import themeContext from '../context/ThemeContext'
 import DeathsChart from './charts/DeathsChart'
 import PositiveTestsChart from './charts/PositiveTestsChart'
 import RespiratoryChart from './charts/respiratoryChart'
 import {getGeneralStatics} from '../server/data'
 export default () => {
     const chartsName={respiratory:'respiratory',deaths:'deaths',positiveTests:'positiveTests'}
+    const { isThemeWhite } = useContext(themeContext)
+ 
     const [data, setData] = useState()
     const [selectedChartOpen,setSelectedChartOpen]=useState()
     useEffect(() => {
@@ -22,7 +25,7 @@ export default () => {
       
       return (
         <div className="flex-row center general-statics-container">
-          <div className="general-statics">
+          <div className={`general-statics  ${isThemeWhite?'':'black-theme'}`}  >
           <div className="static-square">
             <div className="title">מאומתים חדשים אתמול {getInfoTag(`<p>סך הנדבקים בנגיף COVID-19 בישראל שאותרו משעה 00:00 עד שעה 23:59 של יום אתמול</p>
     
@@ -73,7 +76,7 @@ export default () => {
               <div className="detail-chart-title">
                 <p><i onClick={() => {setSelectedChartOpen(selectedChartOpen===chartsName.respiratory?'':chartsName.respiratory)
                 }} class="fas fa-signal"></i>מגמת שינוי יומית</p>
-                <RespiratoryChart  isOpen={selectedChartOpen===chartsName.respiratory} data={data?data.respiratory.allRespiratoryData:[]} ></RespiratoryChart>
+                <RespiratoryChart isThemeWhite={isThemeWhite}  isOpen={selectedChartOpen===chartsName.respiratory} data={data?data.respiratory.allRespiratoryData:[]} ></RespiratoryChart>
                 
               </div>
             </div>
@@ -90,7 +93,7 @@ export default () => {
                
                   
                 }} class="fas fa-signal"></i>מגמת שינוי יומית</p>
-                <DeathsChart  isOpen={selectedChartOpen===chartsName.deaths}  data={data?data.deathsData:[]}></DeathsChart>
+                <DeathsChart isThemeWhite={isThemeWhite}  isOpen={selectedChartOpen===chartsName.deaths}  data={data?data.deathsData:[]}></DeathsChart>
               </div>
             </div>
           </div>
@@ -103,7 +106,7 @@ export default () => {
                 <p><i onClick={() => {
                     setSelectedChartOpen(selectedChartOpen === chartsName.positiveTests ? '' : chartsName.positiveTests)
                   }} class="fas fa-signal"></i>מגמת שינוי יומית</p>
-                <PositiveTestsChart  isOpen={selectedChartOpen===chartsName.positiveTests}data={data?data.deathsData:[]}></PositiveTestsChart>
+                <PositiveTestsChart isThemeWhite={isThemeWhite}  isOpen={selectedChartOpen===chartsName.positiveTests}data={data?data.deathsData:[]}></PositiveTestsChart>
                 
               </div>
             </div>

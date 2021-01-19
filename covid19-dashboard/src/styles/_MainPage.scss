@@ -4,21 +4,10 @@
     flex-flow: column;
     align-items: center;
     width: 100%;
-}
-.spread-weekly{
-    background: white;
-    width: 100%;
-    margin: 0px auto;
-    margin-top: 20px;
-    display: flex;
-    flex-flow: column;
-    align-items: center;
     
 }
-.weekly-charts-container{
-    display: flex;
-    justify-content: center;
-    
+.main-page-container.black-theme{
+    background-color: #49667a;
 }
 .lookup{
  display: flex;   
@@ -35,18 +24,21 @@
     font-size: .75rem;
     font-weight: 300;
 }
-    
-    
-
-.weekly-chart-container{
-    padding: 10px;
-    border: 1px solid $gray-blur;
-    border-left: none;
-    flex-shrink: 1;
-    &:last-child{
-        border-left:  1px solid $gray-blur;
+.lookup.black-theme{
+    background:$black-dark ;
+    color: white;
+    i.fa-info-circle{
+        color:$black-darker ;
+        background: white;
+        border-radius: 100%;
+        border:1px solid $black-darker ;
     }
-}
+}   
+.black-theme>*{
+    color: white;
+} 
+
+
 .flex-shrink-1{
     flex-shrink: 2;
 }
@@ -77,8 +69,28 @@
 
 #epidemic-curve-chart{
     margin-top: -55px;
-    margin-right: -28px;
+    
     
 }
+.chart-card{
+    width: 100%;
+}
+.chart-card.black-theme{
+    background: $black-bright;
+}
+@media(max-width:$desktop-break-point-1){
+    #city-and-test-section{
+        flex-flow: column;
+    }
+}
+@media(max-width:$desktop-break-point-2){
 
-
+.epidemic-chart-container{
+    width: 100%;
+    padding: 0px 25px;
+}
+.seriously-ill-and-respiratory-chart-container{
+    width: 100%;
+    padding: 0px 25px;
+}
+}

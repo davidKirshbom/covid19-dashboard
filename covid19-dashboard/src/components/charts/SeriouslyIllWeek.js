@@ -1,12 +1,19 @@
-import React, { useEffect } from 'react'
+import React, { useEffect,useState } from 'react'
 import Chart from 'chart.js'
 import ChartDataLabels from 'chartjs-plugin-datalabels';
+import {updateCharByCurrentTheme} from '../../charts/utils'
 
 import {  getSeriouslyIllWeek } from '../../server/data'
 
 Chart.plugins.unregister(ChartDataLabels);
-export default () => {
-    
+export default ({isThemeWhite}) => {
+    const [chart,setChart]=useState()
+    useEffect(() => {
+        if (chart) {
+            setChart(updateCharByCurrentTheme(chart,isThemeWhite))
+            chart.update();
+       }
+    },[isThemeWhite])
 
     useEffect(() => {
         let ctx = document.getElementById('seriously-ill-chart');
@@ -127,6 +134,7 @@ export default () => {
                 }
 
             })
+            setChart(myChart)
         }
                 
         )
@@ -139,7 +147,7 @@ export default () => {
 
 
     return (
-    <div id="seriously-ill-chart-container" className={`medium-chart-container `}  style={{ position: 'relative',width:20+'vw'}}>
+    <div id="seriously-ill-chart-container" className={`medium-chart-container `}  >
     <canvas id="seriously-ill-chart" ></canvas>
     </div>)
 

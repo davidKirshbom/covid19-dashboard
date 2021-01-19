@@ -1,9 +1,17 @@
-import React, { useEffect } from 'react'
+import React, { useEffect , useState} from 'react'
 import moment from 'moment'
 import { getGeneralStatics } from '../../server/data'
 import respiratoryChart from '../../charts/makeChart'
+import {updateCharByCurrentTheme} from '../../charts/utils'
 
-export default ({ isOpen, data }) => {
+export default ({ isOpen, data, isThemeWhite }) => {
+  const [chart,setChart]=useState()
+  useEffect(() => {
+      if (chart) {
+          setChart(updateCharByCurrentTheme(chart,isThemeWhite))
+          chart.update();
+     }
+  },[isThemeWhite])
     const getChartLineData = (people) => {
         let day = moment('02/03/2020','DD/MM/YYYY');
         const end = moment().clone();
@@ -28,9 +36,9 @@ export default ({ isOpen, data }) => {
       }
     useEffect(() => {                
             if(isOpen)
-                respiratoryChart('respiratory-chart',getChartLineData(data),{xTitle:'תאריך',yTitle:'כמות מונשמים',chartTitle:'מונשמים',toolTipPostfix:'מונשמים'})
+                respiratoryChart('respiratory-chart',getChartLineData(data),isThemeWhite,{xTitle:'תאריך',yTitle:'כמות מונשמים',chartTitle:'מונשמים',toolTipPostfix:'מונשמים'})
             else 
-                respiratoryChart('respiratory-chart', [],{xTitle:'תאריך',yTitle:'כמות מונשמים',chartTitle:'מונשמים',toolTipPostfix:'מונשמים'})
+                respiratoryChart('respiratory-chart', [],isThemeWhite,{xTitle:'תאריך',yTitle:'כמות מונשמים',chartTitle:'מונשמים',toolTipPostfix:'מונשמים'})
           
             
         

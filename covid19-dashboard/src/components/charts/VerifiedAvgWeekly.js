@@ -4,9 +4,18 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 import axios from 'axios';
 import { getChangesAndDoubleFactorPerWeek } from '../../server/data'
 import respiratoryChart from '../../charts/makeChart'
+import {updateCharByCurrentTheme} from '../../charts/utils'
 Chart.plugins.unregister(ChartDataLabels);
-export default () => {
+export default ({isThemeWhite}) => {
     
+    const [chart, setChart] = useState()
+   
+    useEffect(() => {
+        if (chart) {
+            setChart(updateCharByCurrentTheme(chart,isThemeWhite))
+            chart.update();
+       }
+    },[isThemeWhite])
 
     useEffect(() => {
         let ctx = document.getElementById('verified-avg-chart');
@@ -18,7 +27,7 @@ export default () => {
         gradient.addColorStop(0.5, 'rgba(0, 0, 0, 0)');
         gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
         getChangesAndDoubleFactorPerWeek().then(value => {
-            var myChart = new Chart('verified-avg-chart', {
+            const myChart = new Chart('verified-avg-chart', {
                 plugins:[ChartDataLabels],
                 type: 'line',
                 data: {
@@ -62,6 +71,7 @@ export default () => {
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    
                     title: {
                         display: true,
                         text:  '',
@@ -75,16 +85,19 @@ export default () => {
                     scales: {
                     
                         xAxes: [{
-                            
+                            id:'first',
                             labels: value.map(data => data.day),
                             scaleLabel: {
                                 display: true,
                                 labelString: '',
                                 fontSize: 15,
+                               
                             },
                             gridLines: {
                                 display:false
-                            }
+                            },
+                          
+                            
                         }],
                         yAxes: [{
                             labels: value.map(data => data.avgChangeByWeek),
@@ -92,6 +105,7 @@ export default () => {
                                 display: true,
                                 labelString: 'אחוז שינוי יומי',
                                 fontSize: 15,
+                                fontColor:'black'
                             },
                             ticks: {
                               
@@ -122,7 +136,8 @@ export default () => {
                             clamp:false,
                             display:'auto',
                             textAlign:'center',
-                            align:'top',
+                            align: 'top',
+                            
                             formatter: (text,context)=> {
                                 return `${text}% \n (${value[context.dataIndex].daysToDoubleSickPeople})`
                             }
@@ -131,10 +146,12 @@ export default () => {
                 }
 
             })
+            setChart(myChart)
         }
+            
                 
         )
-        
+
     }, [])
    
     
@@ -143,7 +160,7 @@ export default () => {
 
 
     return (
-    <div id="verified-avg-chart-container" className={`medium-chart-container `}  style={{ position: 'relative',width:35+'vw'}}>
+    <div id="verified-avg-chart-container" className={`medium-chart-container `}  >
     <canvas id="verified-avg-chart" ></canvas>
     </div>)
 

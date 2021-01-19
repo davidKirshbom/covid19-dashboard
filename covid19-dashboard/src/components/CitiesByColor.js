@@ -11,7 +11,7 @@ const sortOptions = {
     changesVerified: 'changes verified',
     activeIlls:'active ills'
 }
-export default () => {
+export default ({isThemeWhite}) => {
     const [cities, setCities] = useState([])
     const [displayCities, setDisplayCities] = useState([])
     const [sortObj,setSortObj]=useState({type:'',isDesc:true})
@@ -68,7 +68,7 @@ export default () => {
                     <span className="city-name">{cityName}</span>
                 </div>
                 <div className="data-container center">
-                    <span className={`city-grade ${cityGrade>8?'red-bg':'green-bg'}`}>{cityGrade}</span>
+                    <span className={`city-grade ${cityGrade>8?'green-bg':cityGrade>5?'orange-bg':cityGrade>3?'yellow-bg':'red-bg'}`}>{cityGrade?cityGrade.toFixed(2):''}</span>
                 </div>
                 <div className="data-container center">
                     <span className="city-new-ill">{cityIlls10000}</span>
@@ -89,7 +89,7 @@ export default () => {
         setSortObj({type: sortOption,isDesc: sortObj.type===sortOption?!sortObj.isDesc?true:false:true})
     }
     return (
-        <div className="cities-by-color-container">
+        <div className={`cities-by-color-container chart-card ${isThemeWhite?'':'black-theme'}`}>
             <div className="top">
                 <div className="title-wrapper">
                     <h3>תכנית הרמזור</h3>

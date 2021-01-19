@@ -5,10 +5,10 @@
     display: grid;
     grid-template-columns: repeat(6,1fr);
     column-gap: 30px;
-  
+    
     margin: 20px auto 0px auto;
     width: 100%;
-   
+    min-width: 350px;
 }
 
 .general-statics-container{
@@ -21,6 +21,7 @@
     width: 100%;
     max-height: 200px;
     border-radius: 5px;
+  
     .title{
         display: flex;
 
@@ -40,9 +41,9 @@
     
         grid-template-columns: repeat(3,1fr);
         grid-template-rows: 1fr 1fr;
-       row-gap: 0px;
-       height: 450px;
-       width: 99%;
+       row-gap: 20px;
+     
+    
     }
     .static-square{
         max-width: unset;
@@ -54,9 +55,8 @@
     
         grid-template-columns: 1fr 1fr;
         grid-template-rows: 1fr 1fr 1fr;
-       row-gap: 0px;
-       height: 450px;
-       width: 99%;
+  
+     
     }
     .static-square{
         max-width: unset;
@@ -147,4 +147,18 @@
 .small-chart-container.open{
     box-shadow: 0 0 10px 2px rgba(0,0,0,.4);
     display: inline;
+    z-index: 100;
+}
+
+.general-statics.black-theme>.static-square{
+    background-color: $black-bright;
+    box-shadow: rgba(26,31,51,0.18) 0 8px 4px 0;
+    color:white;
+    .info-container>.fa-info-circle{
+        color:white;
+    }
+    .small-chart-container{
+        background-color: $black-bright;
+        color: white;
+    }
 }

@@ -4,14 +4,21 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 import axios from 'axios';
 import { getVerifiedOutsideRedZone } from '../../server/data'
 import respiratoryChart from '../../charts/makeChart'
-Chart.plugins.unregister(ChartDataLabels);
-export default () => {
-    
+import {updateCharByCurrentTheme} from '../../charts/utils'
 
+Chart.plugins.unregister(ChartDataLabels);
+export default ({isThemeWhite}) => {
+    const [chart,setChart]=useState()
+    useEffect(() => {
+        if (chart) {
+            setChart(updateCharByCurrentTheme(chart,isThemeWhite))
+            chart.update();
+       }
+    },[isThemeWhite])
     useEffect(() => {
         let ctx = document.getElementById('verified-outside-red-chart');
         getVerifiedOutsideRedZone().then(value => {
-            var myChart = new Chart('verified-outside-red-chart', {
+            let myChart = new Chart('verified-outside-red-chart', {
                 plugins:[ChartDataLabels],
                 type: 'bar',
                 data: {
@@ -103,6 +110,8 @@ export default () => {
                 }
 
             })
+            setChart(myChart)
+            
         }
                 
         )
@@ -115,7 +124,7 @@ export default () => {
 
 
     return (
-    <div id="verified-outside-red-chart-container" className={`medium-chart-container `} style={{ position: 'relative',width:35+'vw'}}>
+    <div id="verified-outside-red-chart-container" className={`medium-chart-container `} >
     <canvas id="verified-outside-red-chart" ></canvas>
     </div>)
 

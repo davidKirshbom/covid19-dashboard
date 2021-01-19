@@ -1,4 +1,5 @@
 
+
 import Chart from 'chart.js'
 
 const getLimitedTicks=(ticks)=> {
@@ -6,7 +7,9 @@ const getLimitedTicks=(ticks)=> {
   return [ticks[0], ticks[skipParameter], ticks[skipParameter * 2], ticks[skipParameter * 3], ticks[skipParameter * 4]]
 }
 
-export default (containerName, data, { xTitle, yTitle, chartTitle, toolTipPostfix } = {}) => {
+export default (containerName, data,isThemeWhite ,{ xTitle, yTitle, chartTitle, toolTipPostfix } = {}) => {
+
+
   let ctx = document.getElementById(containerName);
   let gradient = ctx.getContext('2d').createLinearGradient(0, 0, 0, 500);
   let xTicks=getLimitedTicks(data.map(data=>data.x))
@@ -60,7 +63,7 @@ export default (containerName, data, { xTitle, yTitle, chartTitle, toolTipPostfi
       title: {
         display:true,
         text:chartTitle||'',
-   
+        fontColor:isThemeWhite?'':'white'
         
       },
       legend: {
@@ -77,19 +80,25 @@ export default (containerName, data, { xTitle, yTitle, chartTitle, toolTipPostfi
           scaleLabel: {
             display: true,
             labelString: xTitle||'',
-            fontSize:15,
+            fontSize: 15,
+            fontColor:isThemeWhite?'':'white'
           },
+          ticks: {
+            fontColor:isThemeWhite?'':'white'
+          }
          }],
         yAxes: [{
           labels: lineArray.map(data => data.y),
           scaleLabel: {
             display: true,
             labelString: yTitle||'',
-            fontSize:15,
+            fontSize: 15,
+            fontColor:isThemeWhite?'':'white'
           },
                 ticks: {
                   
                   maxTicksLimit: 5,
+                  fontColor:isThemeWhite?'':'white'
                 }
             }]
       },

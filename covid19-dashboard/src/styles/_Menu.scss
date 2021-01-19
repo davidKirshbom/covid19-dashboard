@@ -30,16 +30,44 @@ flex-flow: column;
 align-items: center;
 justify-content: center;
 margin: 15px 0px;
+margin-left: auto;
 color:$gray-blur;
 font-size: .8rem;
 height: 5rem;
 min-width: 77px;
 padding-right: 5px;
 white-space:nowrap;
+
 }
 .menu-link.selected{
     border-right: 3px solid $blue-bright;
     span{
         color:$blue-bright;
     }
+}
+.login-container{
+    display: flex;
+    flex-flow: row;
+}
+.login{
+    z-index: 10;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    max-width: 0px;
+    transition: max-width .5s linear;
+    padding: 10px;
+}
+.login-input{
+    margin: 0px 10px;
+}
+.login.show{
+    position: relative;
+    height: 100%;
+    background: $gray-blueish;
+    max-width: 600px;
+}
+.login-button{
+    background: white;
+    color: $gray-blueish;
 }

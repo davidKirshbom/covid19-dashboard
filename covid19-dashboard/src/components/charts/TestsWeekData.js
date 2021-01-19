@@ -1,16 +1,24 @@
-import React,{useEffect} from 'react'
+import React,{useEffect,useState} from 'react'
 import LookupTag from '../LookupTag'
 import moment from 'moment'
 import { getTestsSinceDate } from '../../server/data'
 import Chart from 'chart.js'
 import ChartDataLabels from 'chartjs-plugin-datalabels';
+import {updateCharByCurrentTheme} from '../../charts/utils'
 
 Chart.plugins.unregister(ChartDataLabels);
 
-export default () => {
+export default ({isThemeWhite}) => {
+    const [chart,setChart]=useState()
+    useEffect(() => {
+        if (chart) {
+            setChart(updateCharByCurrentTheme(chart,isThemeWhite))
+            chart.update();
+       }
+    },[isThemeWhite])
     useEffect(() => {
         getTestsSinceDate(moment().clone().subtract(1, 'week').toDate()).then((data) => {
-            var myChart = new Chart('tests-last-week-chart', {
+            let myChart = new Chart('tests-last-week-chart', {
                 plugins:[ChartDataLabels],
                 type: 'bar',
                 data: {
@@ -145,20 +153,22 @@ export default () => {
                     layout: {
                         
                         padding: {
-                            top: 20,
-                            right: 25
+                            top: 55,
+                            right: 55
                         }
                     },
                     
                 }
-                })
+            })
+            
+            setChart(myChart)
         
         })
             
         
     },[])
     return (
-        <div className="tests-last-week">
+        <div className={`tests-last-week chart-card ${isThemeWhite?'':'black-theme'}`}>
             <div className="flex-row space-between">
                 <h3>בדיקות לגילוי נבדקים</h3>
                 <div className="flex-row circle-legends-container">
@@ -177,7 +187,9 @@ export default () => {
                 <LookupTag text='סה"כ 707,721 בדיקות בשבוע האחרון ( 6.54% אחוז המאומתים השבועי הממוצע)' isInfo={false} />
                 <LookupTag text="הנתונים אינם כוללים מידע על בדיקות לאבחון החלמה" isInfo={true} />
             </div>
-            <canvas id="tests-last-week-chart"></canvas>
+            <div className="large-chart-container">
+                <canvas id="tests-last-week-chart"></canvas>
+                </div>
         </div>
     )
 }

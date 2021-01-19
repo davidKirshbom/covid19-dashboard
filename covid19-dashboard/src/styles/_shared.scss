@@ -81,3 +81,10 @@ h3{
 .blue-bright-color{
    color:$blue-bright
 }
+
+@media(max-width:$desktop-break-point-2){
+.flex-row-wrapper{
+    flex-flow: column;
+    width: 100%;
+}
+}

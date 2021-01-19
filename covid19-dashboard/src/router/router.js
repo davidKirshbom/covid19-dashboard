@@ -7,6 +7,7 @@ import MainPage from '../components/MainPage'
 import Navigationbar from '../components/Navigationbar'
 import Menu from '../components/Menu'
 import '../styles/style.scss'
+import ManagerPage from '../components/ManagerPage';
 
 export default () => {
 const [isThemeWhite,setIsThemeWhite]=useState(true)
@@ -21,7 +22,8 @@ const [isMenuOpen,setIsMenuOpen]=useState(false)
                
                     <Menu setIsOpen={setIsMenuOpen} isOpen={isMenuOpen}></Menu>
                     <Switch>
-                <Route path="/" exact component={MainPage} />
+                        <Route path="/" exact component={MainPage} />
+                        <Route path="/manger" component={ManagerPage}/>
             </Switch>   
         </section>
     </Router>

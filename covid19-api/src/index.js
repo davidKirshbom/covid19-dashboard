@@ -8,17 +8,21 @@ const cors = require('cors');
 const logger=require('./middleware/logger')
 const peopleRouter = require('./routers/peopleRouter')
 const cityRouter = require('./routers/cityRouter')
-const hospitalRouter= require('./routers/hospitalRouter')
+const hospitalRouter= require('./routers/hospitalRouter');
+const adminRouter = require('./routers/adminRouter');
+const auth=require('./middleware/auth')
 const app = express();
 //middleware
 app.use(cors())
 app.use(logger)
+app.use(auth)
 app.use(express.json())
 
 
 app.use('/people', peopleRouter)
 app.use('/city', cityRouter)
-app.use('/hospital',hospitalRouter)
+app.use('/hospital', hospitalRouter)
+app.use('/admin',adminRouter)
 const port = process.env.PORT
 app.listen(port, () => {
     console.log('Server connected, port:',port)

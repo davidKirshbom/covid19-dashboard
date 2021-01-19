@@ -20,7 +20,16 @@ export default ({ isOpen,setIsOpen }) => {
                 </a>
                 <a onClick={()=>{setIsOpen(false);setSelectedLink(2)}} className={`menu-link ${selectedLink===2?"selected":""}`}>אודות</a>
                 <a onClick={()=>{setIsOpen(false);setSelectedLink(3)}} className={`menu-link ${selectedLink===3?"selected":""}`}>תנאי שימוש</a>
-                <a onClick={()=>{setIsOpen(false);setSelectedLink(4)}} className={`menu-link ${selectedLink===4?"selected":""}`}>מדריך למשתמש</a>
+                <a onClick={() => { setIsOpen(false); setSelectedLink(4) }} className={`menu-link ${selectedLink === 4 ? "selected" : ""}`}>מדריך למשתמש</a>
+                <div onClick={() => { setSelectedLink(5) }} className={`menu-link login-container   ${selectedLink === 5 ? "show-login" : ""}`}>
+                 <div className="menu-link">מנהלן</div> 
+                    <form className={` login ${selectedLink === 5 ? "show" : ""}`}>
+                        <input type="text" name="username" placeholder="שם משתמש" className="login-input"></input>
+                        <input type="text" name="password" placeholder="סיסמא" className="login-input"></input>
+                        <input type="submit" className="rounded-button login-button" value="התחבר"></input>
+                    </form>
+                </div>
+
             </div>
     </div>)
 }
